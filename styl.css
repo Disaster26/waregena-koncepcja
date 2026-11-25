@@ -300,3 +300,35 @@ blockquote{margin:0;font:400 clamp(20px,1.9vw,26px)/1.45 Marcellus,serif;color:v
  .znacz{top:6px;left:6px;font-size:11px;padding:4px 7px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+
+/* baner pracowni (od klientki), na każdej stronie */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.baner{position:relative;background:#F6ECDD}
+.baner picture,.baner-img{display:block;width:100%}
+.baner-img{height:auto;aspect-ratio:2172/724;object-fit:cover}
+.baner-pod .baner-img{aspect-ratio:4/1;object-position:50% 18%}
+.baner-napis{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;margin:0}
+/* zaproszenie do pracowni */
+.zapr-lead{font-size:20px;color:var(--graf)}
+.podpis-c{color:var(--graf)}
+.zapr-zd figure{margin:0}
+.zapr-zd figure:last-child{margin-top:64px}
+.zapr-zd figcaption{font-size:14px;color:var(--cien);margin-top:12px;line-height:1.4}
+.zapr-zd figcaption b{display:block;font:400 18px Marcellus,serif;color:var(--graf);margin-bottom:2px}
+.btn-ciemny{background:transparent;color:#fff;border-color:#fff;margin-top:28px}
+.btn-ciemny:hover,.btn-ciemny:focus-visible{background:var(--magt);border-color:var(--magt)}
+.zapr-kon-w{text-align:center;max-width:780px}
+.zapr-kon .motto{border:0;padding:0;margin:0 auto 22px}
+.zapr-kon p{color:var(--cien)}
+.zapr-kon-k{display:flex;gap:28px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:28px}
+@media (max-width:760px){
+ .baner-img{aspect-ratio:1312/724}
+ .baner-pod .baner-img{aspect-ratio:2/1;object-position:50% 22%}
+ .baner-napis{position:static;width:auto;height:auto;clip:auto;white-space:normal;overflow:visible;padding:18px 20px 22px;font:italic 400 26px/1.25 Georgia,'Times New Roman',serif;color:#3a2a22;text-align:center}
+ .baner-napis em{color:#8B1E6B}
+ .baner-napis::after{content:'';display:block;width:120px;height:2px;background:#8B1E6B;margin:12px auto 0;border-radius:2px}
+ .baner-pod .baner-napis{font-size:19px;padding:11px 16px 13px}
+ .baner-pod .baner-napis::after{width:80px;margin-top:7px}
+ .zapr-zd figure:last-child{margin-top:32px}
+ .zapr{padding-top:48px}
+}
