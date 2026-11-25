@@ -59,10 +59,10 @@ $$('[data-pas]').forEach(pas=>{
   p&&p.addEventListener('click',()=>pas.scrollBy({left:krok(),behavior:'smooth'}));
 });
 
-// filtr kolekcji w sklepie
-const siatka=$('[data-siatka]');
-if(siatka){
-  const ustaw=k=>{$$('[data-filtr]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filtr===k));$$('.karta',siatka).forEach(c=>c.hidden=!!k&&c.dataset.kol!==k)};
+// filtr wykończenia (patynowana / srebrzona / złocona) w dziale i w całej kolekcji
+const siatki=$$('[data-siatka]');
+if(siatki.length&&$('[data-filtr]')){
+  const ustaw=k=>{$$('[data-filtr]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.filtr===k));siatki.forEach(s=>$$('.karta',s).forEach(c=>c.hidden=!!k&&c.dataset.kol!==k));$$('[data-grupa]').forEach(g=>g.hidden=!$$('.karta',g).some(c=>!c.hidden))};
   $$('[data-filtr]').forEach(b=>b.addEventListener('click',()=>{ustaw(b.dataset.filtr);history.replaceState(null,'',b.dataset.filtr?'#'+b.dataset.filtr:location.pathname)}));
   const h=location.hash.slice(1); if(['patynowana','srebrzona','zlocona'].includes(h)) ustaw(h);
 }
@@ -71,14 +71,27 @@ if(siatka){
 const pg=$('[data-pg]');
 if(pg){
   const min=$$('[data-min]');
-  const zaznacz=()=>{const i=Math.round(pg.scrollLeft/pg.clientWidth);min.forEach((b,j)=>b.setAttribute('aria-current',i===j))};
+  const licz=$('[data-licz]');
+  const zaznacz=()=>{const i=Math.round(pg.scrollLeft/pg.clientWidth);min.forEach((b,j)=>b.setAttribute('aria-current',i===j));if(licz)licz.textContent=(i+1)+' / '+min.length};
   min.forEach(b=>b.addEventListener('click',()=>pg.scrollTo({left:pg.clientWidth*+b.dataset.min,behavior:'smooth'})));
   pg.addEventListener('scroll',()=>requestAnimationFrame(zaznacz),{passive:true}); zaznacz();
   let x0=0,s0=0,ciag=false;
   pg.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;ciag=true;x0=e.clientX;s0=pg.scrollLeft;pg.style.scrollSnapType='none'});
-  addEventListener('pointerup',e=>{if(!ciag)return;ciag=false;const d=e.clientX-x0;let i=Math.round(s0/pg.clientWidth)+(d<-40?1:d>40?-1:0);pg.style.scrollSnapType='';pg.scrollTo({left:pg.clientWidth*i,behavior:'smooth'})});
+  addEventListener('pointerup',e=>{if(!ciag)return;ciag=false;const d=e.clientX-x0;if(Math.abs(d)>6)pg.dataset.przes='1';let i=Math.round(s0/pg.clientWidth)+(d<-40?1:d>40?-1:0);pg.style.scrollSnapType='';pg.scrollTo({left:pg.clientWidth*i,behavior:'smooth'})});
   addEventListener('pointermove',e=>{if(ciag)pg.scrollLeft=s0-(e.clientX-x0)});
   $$('img',pg).forEach(i=>i.draggable=false);
+  // powiększenie zdjęcia
+  const pow=$('#pow'), pi=$('[data-pow-img]',pow), duze=$$('[data-pow]',pg).map(b=>b.dataset.pow);
+  let akt=0;
+  const pokaz=i=>{akt=(i+duze.length)%duze.length;pi.src=duze[akt];pi.alt=$$('img',pg)[akt].alt};
+  $('[data-pow-l]',pow).hidden=$('[data-pow-p]',pow).hidden=duze.length<2;
+  $$('[data-pow]',pg).forEach((b,i)=>b.addEventListener('click',()=>{if(pg.dataset.przes){delete pg.dataset.przes;return}pokaz(i);pow.hidden=false;document.body.style.overflow='hidden';$('[data-pow-x]',pow).focus()}));
+  const zamk=()=>{pow.hidden=true;document.body.style.overflow='';pg.scrollTo({left:pg.clientWidth*akt})};
+  $('[data-pow-x]',pow).addEventListener('click',zamk);
+  pow.addEventListener('click',e=>{if(e.target===pow)zamk()});
+  $('[data-pow-l]',pow).addEventListener('click',()=>pokaz(akt-1));
+  $('[data-pow-p]',pow).addEventListener('click',()=>pokaz(akt+1));
+  document.addEventListener('keydown',e=>{if(pow.hidden)return;if(e.key==='Escape')zamk();if(e.key==='ArrowLeft')pokaz(akt-1);if(e.key==='ArrowRight')pokaz(akt+1)});
 }
 
 // mapa Google po kliknięciu
