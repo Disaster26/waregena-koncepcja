@@ -56,7 +56,7 @@ p{margin:0 0 1em}
 .hero-img{position:relative;width:auto;height:84%;mix-blend-mode:multiply}
 .hero-ety{align-self:end;padding-bottom:40px;max-width:280px;justify-self:end}
 .ety{border-top:1px solid var(--graf);padding-top:12px}
-.ety h3,.ety-n{font-family:Marcellus,serif;font-size:20px;color:var(--graf);margin:0}
+.ety h3,.ety .ety-n,.ety-n{font-family:Marcellus,serif;font-size:20px;color:var(--graf);margin:0}
 .ety .kod{margin:2px 0 8px}
 .ety p{font-size:15px;color:var(--cien);margin:0}
 /* kolekcje */
@@ -152,7 +152,7 @@ blockquote{margin:0;font:400 clamp(20px,1.9vw,26px)/1.45 Marcellus,serif;color:v
 .opow figure{margin:0}
 .opow img{mix-blend-mode:multiply}
 .opow p{font-size:16px}
-.opow .ety-n{margin-bottom:6px}
+.opow .ety-n{margin-bottom:6px;font-family:Marcellus,serif;font-size:20px;color:var(--graf)}
 .opow-b{display:block}
 .opcja{display:block;font-size:15px;margin-bottom:18px}
 .opcja select{display:block;width:100%;margin-top:6px;padding:12px;border:1px solid var(--linia);font:400 16px Jost,sans-serif;background:#fff}
